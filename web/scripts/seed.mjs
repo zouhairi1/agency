@@ -66,7 +66,7 @@ console.log(`✓ ${estimatorOptions.length} scoper options`);
 // Example projects with generated covers
 for (const [i, { colors, ...proj }] of projects.entries()) {
   const form = new FormData();
-  for (const [k, v] of Object.entries({ ...proj, published: true })) {
+  for (const [k, v] of Object.entries({ published: true, ...proj })) {
     form.append(k, Array.isArray(v) || typeof v === 'object' ? JSON.stringify(v) : String(v));
   }
   form.delete('category');

@@ -249,8 +249,8 @@ export const hoverPreview: MotionModule = ({ reduce, finePointer }) => {
 /** [data-hero-canvas] — lazy-loads the WebGL hero after first paint, if the device can handle it. */
 export const heroCanvas: MotionModule = ({ reduce }) => {
   const canvas = document.querySelector<HTMLCanvasElement>('[data-hero-canvas]');
-  // Desktop/tablet only: on phones the static gradient is cleaner and faster.
-  if (!canvas || window.innerWidth < 768 || !canCanvas()) return;
+  // Wide screens only (the blob sits to the right of the text); phones/tablets/small laptops keep the soft gradient.
+  if (!canvas || window.innerWidth < 1200 || !canCanvas()) return;
 
   let dispose: (() => void) | undefined;
   let cancelled = false;

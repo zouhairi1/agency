@@ -55,8 +55,8 @@ const p = (html) => html.trim().split(/\n\s*\n/).map((para) => `<p>${para.trim()
 
 export const projects = [
   {
-    slug: 'riad-booking', order: 1, featured: true, category: ['web', 'design'], year: 2026, industry: 'Hôtellerie',
-    client: 'Riad à Marrakech (concept)',
+    slug: 'riad-booking', order: 1, featured: true, published: true, category: ['web', 'design'], year: 2026, industry: 'Hôtellerie',
+    client: 'Riad à Marrakech  · démo',
     title: 'Réservation directe pour un riad', title_en: 'Direct booking for a riad',
     summary: 'Un site immersif et multilingue pour réserver sans commission.', summary_en: 'An immersive, multilingual site to book without commission.',
     stack: ['Astro', 'PocketBase', 'Stripe', 'FR / EN / AR'],
@@ -67,8 +67,8 @@ export const projects = [
     colors: ['#c2410c', '#1c1917'],
   },
   {
-    slug: 'artisanat-ecommerce', order: 2, featured: true, category: ['web'], year: 2026, industry: 'E-commerce',
-    client: 'Coopérative d’artisans (concept)',
+    slug: 'artisanat-ecommerce', order: 2, featured: true, published: true, category: ['web'], year: 2026, industry: 'E-commerce',
+    client: 'Coopérative d’artisans  · démo',
     title: 'E-commerce d’artisanat marocain', title_en: 'Moroccan craft e-commerce',
     summary: 'Une boutique en ligne qui vend au Maroc et à l’export.', summary_en: 'An online store selling in Morocco and abroad.',
     stack: ['Next.js', 'PocketBase', 'CMI', 'Stripe'],
@@ -79,8 +79,8 @@ export const projects = [
     colors: ['#0f766e', '#0b1514'],
   },
   {
-    slug: 'app-rendez-vous-medical', order: 3, featured: true, category: ['mobile', 'design'], year: 2026, industry: 'Santé',
-    client: 'Réseau de cliniques (concept)',
+    slug: 'app-rendez-vous-medical', order: 3, featured: false, published: false, category: ['mobile', 'design'], year: 2026, industry: 'Santé',
+    client: 'Réseau de cliniques  · démo',
     title: 'App de prise de rendez-vous médicaux', title_en: 'Medical appointment app',
     summary: 'Réserver un médecin en moins d’une minute, rappels inclus.', summary_en: 'Book a doctor in under a minute, reminders included.',
     stack: ['React Native', 'Expo', 'PocketBase', 'Notifications'],
@@ -91,8 +91,8 @@ export const projects = [
     colors: ['#2563eb', '#0b1020'],
   },
   {
-    slug: 'saas-logistique', order: 4, featured: true, category: ['web', 'design'], year: 2025, industry: 'Logistique',
-    client: 'Société de transport (concept)',
+    slug: 'saas-logistique', order: 4, featured: false, published: false, category: ['web', 'design'], year: 2025, industry: 'Logistique',
+    client: 'Société de transport  · démo',
     title: 'Tableau de bord logistique', title_en: 'Logistics dashboard',
     summary: 'Suivre flotte, livraisons et performances en temps réel.', summary_en: 'Track fleet, deliveries and performance in real time.',
     stack: ['React', 'Go', 'PocketBase', 'Cartographie'],
@@ -103,8 +103,8 @@ export const projects = [
     colors: ['#7c3aed', '#100b1a'],
   },
   {
-    slug: 'plateforme-e-learning', order: 5, featured: false, category: ['web'], year: 2025, industry: 'Éducation',
-    client: 'Centre de formation (concept)',
+    slug: 'plateforme-e-learning', order: 5, featured: false, published: false, category: ['web'], year: 2025, industry: 'Éducation',
+    client: 'Centre de formation  · démo',
     title: 'Plateforme de formation en ligne', title_en: 'Online learning platform',
     summary: 'Cours vidéo, quiz et certificats, sur ordinateur comme sur mobile.', summary_en: 'Video courses, quizzes and certificates, on desktop and mobile.',
     stack: ['Astro', 'React', 'PocketBase', 'Vidéo'],
@@ -115,8 +115,8 @@ export const projects = [
     colors: ['#ca8a04', '#17140a'],
   },
   {
-    slug: 'assistant-ia-immobilier', order: 6, featured: false, category: ['ai'], year: 2026, industry: 'Immobilier',
-    client: 'Agence immobilière (concept)',
+    slug: 'assistant-ia-immobilier', order: 6, featured: false, published: false, category: ['ai'], year: 2026, industry: 'Immobilier',
+    client: 'Agence immobilière  · démo',
     title: 'Assistant IA pour l’immobilier', title_en: 'AI assistant for real estate',
     summary: 'Un assistant qui répond aux acheteurs 24h/24 et qualifie les demandes.', summary_en: 'An assistant that answers buyers 24/7 and qualifies requests.',
     stack: ['IA / LLM', 'WhatsApp API', 'Go', 'PocketBase'],
@@ -128,8 +128,8 @@ export const projects = [
   },
   // ---- More examples so every /work filter has projects ----
   {
-    slug: 'app-livraison-repas', order: 7, featured: false, category: ['mobile'], year: 2026, industry: 'Restauration',
-    client: 'Réseau de restaurants (concept)',
+    slug: 'app-livraison-repas', order: 7, featured: true, published: true, category: ['mobile'], year: 2026, industry: 'Restauration',
+    client: 'Réseau de restaurants  · démo',
     title: 'App de livraison de repas', title_en: 'Food delivery app',
     summary: 'Commander, payer et suivre son livreur en temps réel.', summary_en: 'Order, pay and track your courier in real time.',
     stack: ['React Native', 'Expo', 'Go', 'Cartographie'],
@@ -140,8 +140,8 @@ export const projects = [
     colors: ['#ea580c', '#1a0f08'],
   },
   {
-    slug: 'app-sport-coaching', order: 8, featured: false, category: ['mobile', 'design'], year: 2025, industry: 'Sport & bien-être',
-    client: 'Salle de sport (concept)',
+    slug: 'app-sport-coaching', order: 8, featured: false, published: false, category: ['mobile', 'design'], year: 2025, industry: 'Sport & bien-être',
+    client: 'Salle de sport  · démo',
     title: 'App de coaching sportif', title_en: 'Fitness coaching app',
     summary: 'Programmes personnalisés, réservation de cours et suivi des progrès.', summary_en: 'Personal programmes, class booking and progress tracking.',
     stack: ['React Native', 'PocketBase', 'Notifications', 'Apple Health'],
@@ -152,8 +152,8 @@ export const projects = [
     colors: ['#db2777', '#1a0811'],
   },
   {
-    slug: 'refonte-app-bancaire', order: 9, featured: false, category: ['design'], year: 2026, industry: 'Fintech',
-    client: 'Start-up fintech (concept)',
+    slug: 'refonte-app-bancaire', order: 9, featured: false, published: false, category: ['design'], year: 2026, industry: 'Fintech',
+    client: 'Start-up fintech  · démo',
     title: 'Refonte UX d’une app de paiement', title_en: 'Payment app UX redesign',
     summary: 'Un parcours plus simple pour envoyer de l’argent en trois étapes.', summary_en: 'A simpler flow to send money in three steps.',
     stack: ['Figma', 'Design system', 'Tests utilisateurs', 'Prototype'],
@@ -164,8 +164,8 @@ export const projects = [
     colors: ['#0891b2', '#06161a'],
   },
   {
-    slug: 'automatisation-factures-ia', order: 10, featured: false, category: ['ai', 'web'], year: 2026, industry: 'Comptabilité',
-    client: 'Cabinet comptable (concept)',
+    slug: 'automatisation-factures-ia', order: 10, featured: false, published: false, category: ['ai', 'web'], year: 2026, industry: 'Comptabilité',
+    client: 'Cabinet comptable  · démo',
     title: 'Lecture automatique de factures par IA', title_en: 'AI invoice processing',
     summary: 'Des factures scannées transformées en écritures comptables, sans saisie.', summary_en: 'Scanned invoices turned into accounting entries, no typing.',
     stack: ['IA / OCR', 'Go', 'PocketBase', 'Export Excel'],
@@ -176,8 +176,8 @@ export const projects = [
     colors: ['#16a34a', '#071208'],
   },
   {
-    slug: 'identite-cafe-torrefacteur', order: 11, featured: false, category: ['branding', 'design'], year: 2025, industry: 'Café & torréfaction',
-    client: 'Torréfacteur artisanal (concept)',
+    slug: 'identite-cafe-torrefacteur', order: 11, featured: true, published: true, category: ['branding', 'design'], year: 2025, industry: 'Café & torréfaction',
+    client: 'Torréfacteur artisanal  · démo',
     title: 'Identité visuelle d’un café torréfacteur', title_en: 'Brand identity for a coffee roaster',
     summary: 'Logo, packaging et site web pour une marque de café de spécialité.', summary_en: 'Logo, packaging and website for a specialty coffee brand.',
     stack: ['Identité visuelle', 'Packaging', 'Astro', 'Motion'],
@@ -188,8 +188,8 @@ export const projects = [
     colors: ['#a16207', '#140f05'],
   },
   {
-    slug: 'branding-promoteur-immobilier', order: 12, featured: false, category: ['branding', 'web'], year: 2026, industry: 'Immobilier',
-    client: 'Promoteur immobilier (concept)',
+    slug: 'branding-promoteur-immobilier', order: 12, featured: false, published: false, category: ['branding', 'web'], year: 2026, industry: 'Immobilier',
+    client: 'Promoteur immobilier  · démo',
     title: 'Branding & site d’un programme immobilier', title_en: 'Branding & website for a residential project',
     summary: 'Une marque premium et une visite 3D pour vendre sur plan.', summary_en: 'A premium brand and a 3D tour to sell off-plan.',
     stack: ['Identité visuelle', 'WebGL / 3D', 'Astro', 'CRM'],

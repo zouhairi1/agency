@@ -11,6 +11,7 @@
 
 | Rule | Implementation |
 |---|---|
+| **Positioning (2-person team)** | **Main market:** direct-booking websites for riads, hotels, guest houses and tourism businesses in Morocco (homepage). **Second offer:** white-label development for agencies in France/Europe (`/white-label`). Packaged offers: Site Vitrine · Réservation directe · Maintenance & croissance (monthly). "2 founders, one single contact" is a selling point. Only 4 niche-relevant demo projects are published until real case studies exist. |
 | **Two markets: Morocco + international** | Bilingual site: **French by default** at `/` (Morocco, France, francophone Africa), **English** at `/en/` (rest of the world). Arabic can be added later as a third locale. The form asks "In Morocco / Outside Morocco (+ country)" and leads are tagged `[MA]` / `[INTL]` in notification emails. |
 | **No prices anywhere public** | No price ranges, no budget question. Every project is quoted **only after reading the client's CDC (cahier des charges) or after a meeting**. The `leads.budget` field is internal and filled by the team after the meeting. |
 | **CDC-first conversion** | The form asks "Do you have a CDC?" → **Yes**: upload it (PDF/Word/ZIP, 15 MB, stored as a protected file). **Not yet**: choose a meeting type (in person in Morocco / video / phone). The auto-reply email (FR or EN) explains the next step. |

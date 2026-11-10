@@ -67,8 +67,8 @@ export function createHeroBlob(canvas: HTMLCanvasElement, { reduce }: Options): 
     renderer.setSize(w, h, false);
     camera.aspect = w / Math.max(h, 1);
     // Keep the blob on the right, away from the headline (desktop), and lower/smaller on mobile.
-    camera.position.x = w > 1024 ? -2.3 : 0;
-    camera.position.y = w > 1024 ? 0.2 : 1.6;
+    camera.position.x = w >= 1200 ? -2.3 : 0;
+    camera.position.y = w >= 1200 ? 0.2 : 1.6;
     camera.updateProjectionMatrix();
   };
   resize();

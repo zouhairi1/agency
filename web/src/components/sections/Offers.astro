@@ -1,0 +1,62 @@
+---
+import { getLocale, localizePath } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+---
+
+<!-- Packaged offers for hospitality. No prices by design: quote after the CDC or a meeting. -->
+<section id="offres" class="section" aria-labelledby="offers-title">
+  <div class="container-x">
+    <div class="mb-10 max-w-3xl md:mb-14">
+      <p class="eyebrow">{t.offers.label}</p>
+      <h2 id="offers-title" class="display-lg mt-4" data-reveal="lines">{t.offers.title}</h2>
+      <p class="lead mt-5">{t.offers.sub}</p>
+    </div>
+
+    <ul class="grid gap-5 lg:grid-cols-3">
+      {t.offers.items.map((offer, i) => {
+        const featured = i === 1;
+        return (
+          <li
+            data-reveal="fade"
+            data-reveal-delay={String(i * 0.1)}
+            class:list={[
+              'relative flex flex-col rounded-sm border p-7 md:p-8',
+              featured ? 'border-accent bg-ink-soft shadow-[0_0_0_1px_var(--color-accent)]' : 'border-line bg-ink',
+            ]}
+          >
+            {featured && (
+              <span class="absolute -top-3 left-7 rounded-full bg-accent px-3 py-1 text-xs font-medium text-on-accent">{t.offers.popular}</span>
+            )}
+            <h3 class="font-display text-2xl font-medium">{offer.title}</h3>
+            <p class="mt-2 text-paper/65">{offer.text}</p>
+            <p class="mt-5 text-sm">
+              <span class="text-muted">{t.offers.duration} · </span>
+              <span class="font-medium">{offer.duration}</span>
+            </p>
+            <ul class="mt-6 space-y-3 border-t border-line pt-6 text-sm">
+              {offer.features.map((f) => (
+                <li class="flex gap-3">
+                  <svg viewBox="0 0 16 16" class="mt-0.5 size-4 shrink-0 text-accent-text" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7" /></svg>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              href={localizePath('/contact', locale)}
+              data-open-contact={`offer-${offer.id}`}
+              class:list={[
+                'mt-8 inline-flex h-12 items-center justify-center rounded-full px-6 font-medium transition-colors',
+                featured ? 'bg-accent text-on-accent hover:bg-accent-hover' : 'border border-line hover:border-paper/50',
+              ]}
+            >
+              {t.offers.cta}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getLocale, localizePath } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const w = t.whiteLabel;
+---
+
+<BaseLayout title={w.metaTitle} description={w.metaDescription}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden pb-16 pt-32 md:pb-24 md:pt-40">
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(50%_60%_at_85%_30%,color-mix(in_srgb,var(--color-accent)_14%,transparent)_0%,transparent_70%)]" aria-hidden="true"></div>
+    <div class="container-x">
+      <div class="max-w-4xl">
+      <p class="eyebrow">{w.eyebrow}</p>
+      <h1 class="display-xl mt-5" data-reveal="lines" data-reveal-immediate>{w.title}</h1>
+      <p class="lead mt-7 max-w-2xl">{w.sub}</p>
+      <a href={localizePath('/contact', locale)} data-open-contact="white-label"
+        class="mt-10 inline-flex h-12 items-center rounded-full bg-accent px-7 font-medium text-on-accent transition-colors hover:bg-accent-hover">
+        {w.cta}
+      </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why us -->
+  <section class="section border-t border-line" aria-labelledby="wl-why">
+    <div class="container-x">
+      <h2 id="wl-why" class="display-lg max-w-2xl" data-reveal="lines">{w.whyLabel}</h2>
+      <ul class="mt-12 grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        {w.why.map((item, i) => (
+          <li class="bg-ink p-7 md:p-8" data-reveal="fade" data-reveal-delay={String(i * 0.08)}>
+            <span class="text-sm tabular-nums text-accent-text">0{i + 1}</span>
+            <h3 class="mt-5 font-display text-xl font-medium">{item.title}</h3>
+            <p class="mt-2 text-paper/65">{item.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- What we build + how it works -->
+  <section class="section border-t border-line">
+    <div class="container-x grid gap-14 lg:grid-cols-2 lg:gap-20">
+      <div>
+        <h2 class="display-lg" data-reveal="lines">{w.whatLabel}</h2>
+        <ul class="mt-10 divide-y divide-line border-y border-line">
+          {w.what.map((item) => (
+            <li class="flex items-center gap-4 py-4">
+              <svg viewBox="0 0 16 16" class="size-4 shrink-0 text-accent-text" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7" /></svg>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 class="display-lg" data-reveal="lines">{w.howLabel}</h2>
+        <ol class="mt-10 space-y-8">
+          {w.how.map((step, i) => (
+            <li class="flex gap-5" data-reveal="fade">
+              <span class="grid size-10 shrink-0 place-items-center rounded-full border border-line text-sm tabular-nums">0{i + 1}</span>
+              <div>
+                <h3 class="font-display text-xl font-medium">{step.title}</h3>
+                <p class="mt-1 text-paper/65">{step.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

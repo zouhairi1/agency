@@ -23,6 +23,16 @@ export const site = {
 
 export const SHOW_PLACEHOLDERS = import.meta.env.DEV;
 
+/**
+ * The two founders. Add your names and photos here when ready
+ * (photo: put the file in web/public/team/ and set e.g. photo: '/team/omar.jpg').
+ * Roles and descriptions are translated in i18n/ui.ts (founders.people).
+ */
+export const founders: { name: string; photo?: string; linkedin?: string }[] = [
+  { name: '' },
+  { name: '' },
+];
+
 type L<T> = Record<Locale, T>;
 
 export const fallbackServices: L<{ title: string; outcome: string; capabilities: string[] }[]> = {
@@ -87,5 +97,3 @@ export const placeholderStats = [
 export const placeholderTestimonials = [
   { quote: 'Placeholder testimonial. Add real client quotes in PocketBase (testimonials).', name: 'Client name', role: 'Role', company: 'Company' },
 ];
-
-export const techStack = ['Astro', 'React', 'Next.js', 'TypeScript', 'Node.js', 'Go', 'PocketBase', 'React Native', 'Python', 'Three.js', 'AWS', 'Figma'];

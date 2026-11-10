@@ -6,12 +6,12 @@ import type { Locale } from './config';
  */
 const fr = {
   meta: {
-    tagline: 'Studio de design & développement',
+    tagline: 'Sites de réservation directe pour riads, hôtels & tourisme',
     description:
-      "[AGENCY] est un studio de design et d'ingénierie qui conçoit des sites, applications web et mobiles rapides et soignés, pour des clients au Maroc et à l'international.",
+      "[AGENCY] crée des sites de réservation directe pour riads, hôtels et acteurs du tourisme au Maroc : moins de commissions, plus de clients. Et développe en marque blanche pour les agences en France et en Europe.",
   },
   a11y: { skip: 'Aller au contenu', home: 'Accueil', openMenu: 'Ouvrir le menu', closeMenu: 'Fermer le menu', language: 'Langue', toLight: 'Passer en mode clair', toDark: 'Passer en mode sombre' },
-  nav: { work: 'Réalisations', services: 'Services', blog: 'Blog', contact: 'Contact' },
+  nav: { work: 'Réalisations', services: 'Offres', agencies: 'Pour les agences', blog: 'Blog', contact: 'Contact' },
   blog: {
     label: 'Blog',
     title: 'Conseils & coulisses.',
@@ -29,18 +29,82 @@ const fr = {
   availability: 'Disponible pour de nouveaux projets',
   cta: { start: 'Démarrer un projet', seeWork: 'Voir nos réalisations', scroll: 'Défiler' },
   hero: {
-    eyebrow: 'Studio digital · Maroc & International',
-    title: 'Des sites et des apps qui font grandir votre entreprise.',
-    sub: 'Nous concevons et développons des sites web, applications web et mobiles rapides, beaux et simples à utiliser.',
-    trust: ['Réponse sous 24 h', 'Maroc & international', 'Français · English · العربية'],
+    eyebrow: 'Riads · Hôtels · Maisons d’hôtes · Tourisme',
+    title: 'Plus de réservations en direct. Moins de commissions.',
+    sub: 'Nous créons le site de votre établissement : beau, rapide, en français, anglais et arabe, avec réservation et paiement en ligne. Vos clients réservent chez vous, pas sur les plateformes.',
+    trust: ['Réponse sous 24 h', 'Un seul interlocuteur', 'Français · English · العربية'],
   },
   manifesto: {
-    label: 'Qui sommes-nous',
-    text: 'Le design rencontre le code.',
+    label: 'Pourquoi un site de réservation directe ?',
+    text: 'Chaque réservation sur une plateforme vous coûte souvent 15 % ou plus.',
     pillars: [
-      { title: 'Design', text: 'Des interfaces claires, pensées pour vos clients.' },
-      { title: 'Développement', text: 'Un code solide, rapide et facile à faire évoluer.' },
-      { title: 'Accompagnement', text: 'Un interlocuteur dédié, du premier rendez-vous au lancement.' },
+      { title: 'Moins de commissions', text: 'Les réservations faites sur votre site vous reviennent, sans intermédiaire.' },
+      { title: 'Vos clients, vos données', text: 'Vous gardez le contact de vos clients pour les faire revenir.' },
+      { title: 'Votre image', text: 'Un site à votre image, en 3 langues, qui donne envie de réserver.' },
+    ],
+  },
+  offers: {
+    label: 'Nos offres',
+    title: 'Trois offres claires, pensées pour l’hôtellerie.',
+    sub: 'Chaque projet est chiffré après lecture de votre cahier des charges ou un premier rendez-vous.',
+    cta: 'Demander un devis',
+    duration: 'Délai',
+    popular: 'Le plus demandé',
+    items: [
+      {
+        id: 'vitrine',
+        title: 'Site Vitrine',
+        text: 'Le site de votre établissement, pour être trouvé et donner envie.',
+        duration: '3 à 4 semaines',
+        features: ['Jusqu’à 6 pages (chambres, services, galerie, contact)', 'Français, anglais et arabe', 'Bouton WhatsApp & Google Maps', 'Référencement Google local', 'Vous modifiez textes et photos vous-même'],
+      },
+      {
+        id: 'reservation',
+        title: 'Réservation directe',
+        text: 'Tout le site vitrine, plus la réservation et le paiement en ligne.',
+        duration: '6 à 8 semaines',
+        features: ['Calendrier de disponibilités', 'Paiement en ligne (CMI, carte bancaire)', 'E-mails de confirmation automatiques', 'Tableau de bord des réservations', 'Formation de votre équipe'],
+      },
+      {
+        id: 'maintenance',
+        title: 'Maintenance & croissance',
+        text: 'On s’occupe de votre site chaque mois, vous vous occupez de vos clients.',
+        duration: 'Abonnement mensuel',
+        features: ['Hébergement rapide & sécurisé', 'Sauvegardes et mises à jour', 'Petites modifications incluses', 'Suivi du référencement Google', 'Rapport mensuel des visites'],
+      },
+    ],
+  },
+  founders: {
+    label: 'L’équipe',
+    title: 'Deux fondateurs. Un seul interlocuteur.',
+    sub: 'Pas de commercial, pas de junior : vous parlez directement aux personnes qui conçoivent et développent votre site.',
+    people: [
+      { role: 'Co-fondateur · Projet & design', text: 'Votre interlocuteur du premier rendez-vous à la mise en ligne : besoins, maquettes, suivi.' },
+      { role: 'Co-fondateur · Développement', text: 'Construit votre site et votre système de réservation : rapide, sécurisé, facile à faire évoluer.' },
+    ],
+  },
+  whiteLabel: {
+    metaTitle: 'Développement en marque blanche pour agences',
+    metaDescription: 'Équipe de développement francophone basée au Maroc, même fuseau horaire que la France. Sites, e-commerce et applications en marque blanche pour les agences.',
+    eyebrow: 'Pour les agences · France & Europe',
+    title: 'Votre équipe de développement, en marque blanche.',
+    sub: 'Vous vendez et gérez la relation client, nous développons. Équipe francophone basée au Maroc, même fuseau horaire que la France, à un coût maîtrisé.',
+    cta: 'Discuter d’un projet',
+    whyLabel: 'Pourquoi travailler avec nous',
+    why: [
+      { title: 'Même fuseau horaire', text: 'GMT+1 : nous travaillons aux mêmes heures que vos équipes et vos clients.' },
+      { title: '100 % francophone', text: 'Briefs, réunions et documentation en français (et en anglais).' },
+      { title: 'Votre marque, pas la nôtre', text: 'Nous restons invisibles pour vos clients. Confidentialité et NDA dès le départ.' },
+      { title: 'Coût maîtrisé', text: 'Une qualité de studio à un coût qui préserve votre marge.' },
+    ],
+    whatLabel: 'Ce que nous développons pour vous',
+    what: ['Sites vitrines & sites premium animés', 'E-commerce', 'Applications web & SaaS', 'Applications mobiles iOS & Android', 'Intégration de maquettes Figma', 'Maintenance de sites existants'],
+    howLabel: 'Comment ça marche',
+    how: [
+      { title: 'Brief', text: 'Vous nous envoyez les maquettes ou le cahier des charges.' },
+      { title: 'Devis sous 48 h', text: 'Délai et prix fixes, sans surprise.' },
+      { title: 'Développement', text: 'Préversion en ligne chaque semaine pour vous et votre client.' },
+      { title: 'Livraison', text: 'Code, accès et documentation à votre nom.' },
     ],
   },
   work: {
@@ -62,7 +126,6 @@ const fr = {
     results: 'Résultats',
     categories: { web: 'Web', mobile: 'Mobile', design: 'Design', ai: 'IA', branding: 'Branding' } as Record<string, string>,
   },
-  services: { label: 'Services', title: 'Ce que nous faisons de mieux.' },
   process: {
     label: 'Notre méthode',
     title: "De l'idée au lancement, en quatre étapes.",
@@ -76,7 +139,6 @@ const fr = {
   },
   stats: { aria: 'Notre impact en chiffres' },
   testimonials: { label: 'Ils parlent de nous', title: 'Témoignages' },
-  stack: { label: 'Expertise', title: 'Une stack moderne. Zéro compromis.' },
   ctaBanner: { title: 'Une idée ? Construisons-la.', copy: '(copier)', copied: 'E-mail copié !', whatsapp: 'WhatsApp ↗', book: 'Prendre rendez-vous ↗', ring: 'Démarrer un projet • Démarrer un projet • ' },
   footer: { haveIdea: 'Un projet en tête ?', letsTalk: 'Parlons-en →', sitemap: 'Plan du site', social: 'Réseaux', offices: 'Où nous trouver', rights: 'Tous droits réservés.', backToTop: 'Haut de page ↑', worldwide: 'Clients au Maroc & à l’international' },
   contact: {
@@ -145,12 +207,12 @@ type Dictionary = typeof fr;
 
 const en: Dictionary = {
   meta: {
-    tagline: 'Design-led engineering studio',
+    tagline: 'Direct-booking websites for riads, hotels & tourism',
     description:
-      '[AGENCY] is a design-led engineering studio building fast, beautiful websites, web apps and mobile apps for clients in Morocco and worldwide.',
+      '[AGENCY] builds direct-booking websites for riads, hotels and tourism businesses in Morocco: fewer commissions, more guests. We also build white-label for agencies in France and Europe.',
   },
   a11y: { skip: 'Skip to content', home: 'Home', openMenu: 'Open menu', closeMenu: 'Close menu', language: 'Language', toLight: 'Switch to light mode', toDark: 'Switch to dark mode' },
-  nav: { work: 'Work', services: 'Services', blog: 'Blog', contact: 'Contact' },
+  nav: { work: 'Work', services: 'Offers', agencies: 'For agencies', blog: 'Blog', contact: 'Contact' },
   blog: {
     label: 'Blog',
     title: 'Insights & behind the scenes.',
@@ -168,18 +230,82 @@ const en: Dictionary = {
   availability: 'Available for new projects',
   cta: { start: 'Start a project', seeWork: 'See our work', scroll: 'Scroll' },
   hero: {
-    eyebrow: 'Digital studio · Morocco & Worldwide',
-    title: 'Websites and apps that grow your business.',
-    sub: 'We design and build websites, web apps and mobile apps that are fast, beautiful and easy to use.',
-    trust: ['Reply within 24 h', 'Morocco & worldwide', 'Français · English · العربية'],
+    eyebrow: 'Riads · Hotels · Guest houses · Tourism',
+    title: 'More direct bookings. Fewer commissions.',
+    sub: 'We build your property’s website: beautiful, fast, in French, English and Arabic, with online booking and payment. Your guests book with you, not on the platforms.',
+    trust: ['Reply within 24 h', 'One single contact', 'Français · English · العربية'],
   },
   manifesto: {
-    label: 'Who we are',
-    text: 'Where design meets code.',
+    label: 'Why a direct-booking website?',
+    text: 'Every booking through a platform often costs you 15% or more.',
     pillars: [
-      { title: 'Design', text: 'Clear interfaces, built around your customers.' },
-      { title: 'Engineering', text: 'Solid, fast code that is easy to grow.' },
-      { title: 'Partnership', text: 'One dedicated contact, from first meeting to launch.' },
+      { title: 'Fewer commissions', text: 'Bookings made on your website are yours, with no middleman.' },
+      { title: 'Your guests, your data', text: 'You keep your guests’ contact details to bring them back.' },
+      { title: 'Your image', text: 'A website that looks like you, in 3 languages, that makes people want to book.' },
+    ],
+  },
+  offers: {
+    label: 'Our offers',
+    title: 'Three clear offers, built for hospitality.',
+    sub: 'Every project is quoted after we read your specifications or meet you.',
+    cta: 'Request a quote',
+    duration: 'Timeline',
+    popular: 'Most requested',
+    items: [
+      {
+        id: 'vitrine',
+        title: 'Showcase Website',
+        text: 'Your property’s website, to be found and make people want to stay.',
+        duration: '3 to 4 weeks',
+        features: ['Up to 6 pages (rooms, services, gallery, contact)', 'French, English and Arabic', 'WhatsApp button & Google Maps', 'Local Google SEO', 'Edit texts and photos yourself'],
+      },
+      {
+        id: 'reservation',
+        title: 'Direct Booking',
+        text: 'Everything in the showcase website, plus online booking and payment.',
+        duration: '6 to 8 weeks',
+        features: ['Availability calendar', 'Online payment (card, CMI)', 'Automatic confirmation emails', 'Bookings dashboard', 'Training for your team'],
+      },
+      {
+        id: 'maintenance',
+        title: 'Care & Growth',
+        text: 'We look after your website every month, you look after your guests.',
+        duration: 'Monthly plan',
+        features: ['Fast, secure hosting', 'Backups and updates', 'Small changes included', 'Google SEO monitoring', 'Monthly traffic report'],
+      },
+    ],
+  },
+  founders: {
+    label: 'The team',
+    title: 'Two founders. One single contact.',
+    sub: 'No sales rep, no junior: you talk directly to the people who design and build your website.',
+    people: [
+      { role: 'Co-founder · Project & design', text: 'Your contact from the first meeting to launch: needs, designs, follow-up.' },
+      { role: 'Co-founder · Engineering', text: 'Builds your website and booking system: fast, secure, easy to grow.' },
+    ],
+  },
+  whiteLabel: {
+    metaTitle: 'White-label development for agencies',
+    metaDescription: 'French-speaking development team based in Morocco, same time zone as France and most of Europe. White-label websites, e-commerce and apps for agencies.',
+    eyebrow: 'For agencies · France & Europe',
+    title: 'Your development team, white-label.',
+    sub: 'You sell and own the client relationship, we build. A French- and English-speaking team in Morocco, in your time zone, at a cost that protects your margin.',
+    cta: 'Discuss a project',
+    whyLabel: 'Why work with us',
+    why: [
+      { title: 'Same time zone', text: 'GMT+1: we work the same hours as you and your clients.' },
+      { title: 'French & English', text: 'Briefs, meetings and documentation in French or English.' },
+      { title: 'Your brand, not ours', text: 'We stay invisible to your clients. Confidentiality and NDA from day one.' },
+      { title: 'Controlled cost', text: 'Studio-level quality at a cost that protects your margin.' },
+    ],
+    whatLabel: 'What we build for you',
+    what: ['Showcase & premium animated websites', 'E-commerce', 'Web apps & SaaS', 'iOS & Android mobile apps', 'Figma design implementation', 'Maintenance of existing sites'],
+    howLabel: 'How it works',
+    how: [
+      { title: 'Brief', text: 'You send us the designs or the specifications.' },
+      { title: 'Quote within 48 h', text: 'Fixed timeline and price, no surprises.' },
+      { title: 'Build', text: 'A live preview every week for you and your client.' },
+      { title: 'Delivery', text: 'Code, access and documentation in your name.' },
     ],
   },
   work: {
@@ -201,7 +327,6 @@ const en: Dictionary = {
     results: 'Results',
     categories: { web: 'Web', mobile: 'Mobile', design: 'Design', ai: 'AI', branding: 'Branding' },
   },
-  services: { label: 'Services', title: 'What we do best.' },
   process: {
     label: 'How we work',
     title: 'From idea to launch in four steps.',
@@ -215,7 +340,6 @@ const en: Dictionary = {
   },
   stats: { aria: 'Impact in numbers' },
   testimonials: { label: 'Kind words', title: 'Testimonials' },
-  stack: { label: 'Expertise', title: 'Modern stack. Zero compromises.' },
   ctaBanner: { title: "Have an idea? Let's build it.", copy: '(copy)', copied: 'Email copied!', whatsapp: 'WhatsApp ↗', book: 'Book a meeting ↗', ring: 'Start a project • Start a project • ' },
   footer: { haveIdea: 'Have an idea?', letsTalk: "Let's talk →", sitemap: 'Sitemap', social: 'Social', offices: 'Where we are', rights: 'All rights reserved.', backToTop: 'Back to top ↑', worldwide: 'Clients in Morocco & worldwide' },
   contact: {
