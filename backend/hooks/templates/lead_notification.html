@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<body style="font-family: -apple-system, Segoe UI, Roboto, sans-serif; color: #111; line-height: 1.5;">
+  <h2 style="margin: 0 0 16px;">New project lead</h2>
+  <p style="margin: 0 0 16px; padding: 10px 14px; background: {{if .HasCDC}}#e8ffd0{{else}}#f4f2ee{{end}}; border-radius: 6px;">
+    {{if .HasCDC}}<strong>✔ Has a CDC</strong>{{if .HasFile}} (attached in PocketBase){{end}}: review it, then send a quote.
+    {{else}}<strong>No CDC yet</strong>: schedule a discovery meeting{{if .Meeting}} ({{.Meeting}}){{end}}.{{end}}
+  </p>
+  <table cellpadding="6" style="border-collapse: collapse;">
+    <tr><td><strong>Name</strong></td><td>{{.Name}}</td></tr>
+    <tr><td><strong>Email</strong></td><td><a href="mailto:{{.Email}}">{{.Email}}</a></td></tr>
+    {{if .Phone}}<tr><td><strong>Phone</strong></td><td><a href="tel:{{.Phone}}">{{.Phone}}</a></td></tr>{{end}}
+    {{if .Company}}<tr><td><strong>Company</strong></td><td>{{.Company}}</td></tr>{{end}}
+    {{if .Market}}<tr><td><strong>Market</strong></td><td>{{.Market}}{{if .Country}} · {{.Country}}{{end}}</td></tr>{{end}}
+    {{if .Language}}<tr><td><strong>Language</strong></td><td>{{.Language}}</td></tr>{{end}}
+    {{if .Services}}<tr><td><strong>Services</strong></td><td>{{.Services}}</td></tr>{{end}}
+    {{if .Timeline}}<tr><td><strong>Timeline</strong></td><td>{{.Timeline}}</td></tr>{{end}}
+    {{if .Meeting}}<tr><td><strong>Meeting</strong></td><td>{{.Meeting}}</td></tr>{{end}}
+    {{if .Channel}}<tr><td><strong>Channel</strong></td><td>{{.Channel}}</td></tr>{{end}}
+    {{if .SourcePage}}<tr><td><strong>Page</strong></td><td>{{.SourcePage}}</td></tr>{{end}}
+  </table>
+  {{if .Message}}
+  <h3>Message</h3>
+  <p style="white-space: pre-wrap;">{{.Message}}</p>
+  {{end}}
+  {{if and .Estimate (ne .Estimate "null")}}
+  <h3>Project scoper selections</h3>
+  <pre style="background: #f4f2ee; padding: 12px; border-radius: 6px;">{{.Estimate}}</pre>
+  {{end}}
+  <p><a href="{{.AdminURL}}">Open in PocketBase →</a></p>
+</body>
+</html>

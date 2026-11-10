@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ui/ProjectCard.astro';
+import { getLocale, localizePath } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+import { getProjects } from '../lib/content';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const { projects, linkable } = await getProjects(locale);
+const categories = ['all', ...new Set(projects.flatMap((p) => p.category))];
+---
+
+<BaseLayout title={t.work.pageTitle} description={t.work.pageDescription}>
+  <section class="container-x pb-24 pt-40">
+    <p class="eyebrow">{t.work.label}</p>
+    <h1 class="display-xl mt-4" data-reveal="lines" data-reveal-immediate>{t.work.pageTitle}</h1>
+
+    {projects.length === 0 ? (
+      <div class="mt-16 max-w-xl text-lg text-paper/70">
+        <p>{t.contact.intro}</p>
+        <a href={localizePath('/contact', locale)} data-open-contact="work-empty" class="mt-8 inline-flex rounded-full bg-accent px-7 py-4 font-medium text-on-accent">{t.cta.start}</a>
+      </div>
+    ) : (
+      <>
+        <div class="mt-12 flex flex-wrap gap-2" role="group" aria-label={t.work.filterLabel}>
+          {categories.map((c, i) => (
+            <button type="button" data-filter={c} aria-pressed={i === 0 ? 'true' : 'false'}
+              class="rounded-full border border-line px-4 py-2 text-sm transition-colors aria-pressed:border-accent aria-pressed:bg-accent aria-pressed:text-on-accent">
+              {c === 'all' ? t.work.all : t.work.categories[c] ?? c}
+            </button>
+          ))}
+        </div>
+
+        <ul data-work-grid class="mt-16 grid gap-x-8 gap-y-20 md:grid-cols-2">
+          {projects.map((project, i) => (
+            <li data-category={project.category.join(' ')} class={i % 2 === 1 ? 'md:mt-32' : ''}>
+              <ProjectCard project={project} index={i} linkable={linkable} />
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </section>
+</BaseLayout>
+
+<script>
+  import { Flip, MQ } from '../scripts/motion/gsap';
+
+  // Filter with GSAP Flip: all projects are in the HTML; filtering only toggles visibility.
+  document.addEventListener('astro:page-load', () => {
+    const grid = document.querySelector<HTMLElement>('[data-work-grid]');
+    if (!grid) return;
+    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    const items = grid.querySelectorAll<HTMLElement>('li');
+
+    for (const button of buttons) {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.filter!;
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        const state = Flip.getState(items);
+        items.forEach((item) => {
+          item.hidden = !(filter === 'all' || item.dataset.category?.split(' ').includes(filter));
+          item.classList.remove('md:mt-32');
+        });
+        if (filter === 'all') items.forEach((item, i) => i % 2 === 1 && item.classList.add('md:mt-32'));
+        Flip.from(state, {
+          duration: matchMedia(MQ.reduce).matches ? 0 : 0.8,
+          ease: 'expo.inOut',
+          absolute: true,
+          onEnter: (els) => els.forEach((el) => el.animate([{ opacity: 0 }, { opacity: 1 }], 400)),
+          onLeave: (els) => els.forEach((el) => el.animate([{ opacity: 1 }, { opacity: 0 }], 300)),
+        });
+      });
+    }
+  });
+</script>

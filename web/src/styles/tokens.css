@@ -1,0 +1,17 @@
+:root {
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-circ: cubic-bezier(0.85, 0, 0.15, 1);
+
+  /* Durations */
+  --dur-xs: 150ms;  /* micro: hovers, toggles */
+  --dur-sm: 300ms;  /* buttons, small UI */
+  --dur-md: 600ms;  /* reveals */
+  --dur-lg: 1000ms; /* section/hero reveals */
+  --dur-xl: 1400ms; /* page transitions */
+
+  /* Stagger */
+  --stagger-text: 0.06s;
+  --stagger-items: 0.1s;
+}

@@ -1,0 +1,25 @@
+---
+import ProjectScoper from '../islands/ProjectScoper';
+import type { ScoperOption } from '../../data/site';
+import { getLocale } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  options: ScoperOption[];
+}
+const { options } = Astro.props;
+const t = useTranslations(getLocale(Astro.url));
+---
+
+<section id="scoper" class="section" aria-labelledby="scoper-title">
+  <div class="container-x">
+    <div class="mb-14 max-w-3xl">
+      <p class="eyebrow">{t.scoper.label}</p>
+      <div class="mt-4">
+        <h2 id="scoper-title" class="display-lg" data-reveal="lines">{t.scoper.title}</h2>
+        <p class="mt-6 max-w-2xl text-paper/70" data-reveal="fade">{t.scoper.sub}</p>
+      </div>
+    </div>
+    <ProjectScoper client:visible t={t.scoper} options={options} />
+  </div>
+</section>

@@ -1,0 +1,45 @@
+---
+import { techStack } from '../../data/site';
+import { getLocale } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+const t = useTranslations(getLocale(Astro.url));
+---
+
+<section class="section" aria-labelledby="stack-title">
+  <div class="container-x">
+    <div class="mb-14 max-w-3xl">
+      <p class="eyebrow">{t.stack.label}</p>
+      <h2 id="stack-title" class="display-lg mt-4" data-reveal="lines">{t.stack.title}</h2>
+    </div>
+    <!-- Spotlight hover: radial gradient follows the cursor across the grid. -->
+    <ul data-spotlight class="spotlight grid grid-cols-3 gap-px overflow-hidden rounded-sm bg-line sm:grid-cols-4 lg:grid-cols-6">
+      {techStack.map((tech) => (
+        <li class="relative grid place-items-center bg-ink px-2 py-6 text-center text-sm sm:py-8 sm:text-base lg:aspect-[3/2] lg:py-0 lg:text-lg">{tech}</li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .spotlight { position: relative; }
+  .spotlight::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(20rem circle at var(--x, -100%) var(--y, -100%), color-mix(in srgb, var(--color-accent) 22%, transparent), transparent 60%);
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    for (const grid of document.querySelectorAll<HTMLElement>('[data-spotlight]')) {
+      grid.addEventListener('pointermove', (e) => {
+        const r = grid.getBoundingClientRect();
+        grid.style.setProperty('--x', `${e.clientX - r.left}px`);
+        grid.style.setProperty('--y', `${e.clientY - r.top}px`);
+      });
+    }
+  });
+</script>

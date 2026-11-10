@@ -1,0 +1,59 @@
+---
+import { getLocale } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+const t = useTranslations(getLocale(Astro.url));
+---
+
+<section id="process" data-process class="section" aria-labelledby="process-title">
+  <div class="container-x grid gap-16 lg:grid-cols-12">
+    <div class="lg:col-span-5">
+      <div class="lg:sticky lg:top-32">
+        <p class="eyebrow">{t.process.label}</p>
+        <h2 id="process-title" class="display-lg mt-4" data-reveal="lines">{t.process.title}</h2>
+        <p class="mt-6 max-w-sm text-paper/70" data-reveal="fade">{t.process.sub}</p>
+      </div>
+    </div>
+
+    <ol class="relative lg:col-span-7">
+      <span class="absolute left-[1.15rem] top-0 h-full w-px bg-line" aria-hidden="true"></span>
+      <span data-process-progress class="absolute left-[1.15rem] top-0 h-full w-px origin-top scale-y-0 bg-accent motion-reduce:scale-y-100" aria-hidden="true"></span>
+
+      {t.process.steps.map((step, i) => (
+        <li data-process-step data-reveal="fade" class="relative pb-14 pl-16 last:pb-0">
+          <span class="absolute left-0 top-0 grid size-10 place-items-center rounded-full border border-line bg-ink text-sm tabular-nums">
+            0{i + 1}
+          </span>
+          <div class="flex flex-wrap items-baseline justify-between gap-4">
+            <h3 class="font-display text-2xl font-medium md:text-3xl">{step.title}</h3>
+            <span class="text-sm text-muted">{step.duration}</span>
+          </div>
+          <p class="mt-4 max-w-lg text-paper/70">{step.text}</p>
+          <ul class="mt-5 flex flex-wrap gap-2">
+            {step.deliverables.map((d) => <li class="rounded-full border border-line px-3 py-1 text-xs">{d}</li>)}
+          </ul>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<script>
+  import { gsap, MQ } from '../../scripts/motion/gsap';
+
+  // Progress line fills as you scroll through the steps.
+  document.addEventListener('astro:page-load', () => {
+    const section = document.querySelector<HTMLElement>('[data-process]');
+    if (!section || matchMedia(MQ.reduce).matches) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to('[data-process-progress]', {
+        scaleY: 1,
+        ease: 'none',
+        scrollTrigger: { trigger: section.querySelector('ol'), start: 'top 60%', end: 'bottom 60%', scrub: true },
+      });
+    }, section);
+
+    document.addEventListener('astro:before-swap', () => ctx.revert(), { once: true });
+  });
+</script>

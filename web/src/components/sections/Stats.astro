@@ -1,0 +1,23 @@
+---
+import { getLocale } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  stats: { label: string; value: number; prefix: string; suffix: string }[];
+}
+const { stats } = Astro.props;
+const t = useTranslations(getLocale(Astro.url));
+---
+
+<section class="border-y border-line py-20" aria-label={t.stats.aria}>
+  <dl class="container-x grid grid-cols-2 gap-y-12 md:grid-cols-4">
+    {stats.map((s) => (
+      <div data-reveal="fade" class="flex flex-col">
+        <dt class="eyebrow order-2 mt-3">{s.label}</dt>
+        <dd class="font-display text-6xl tracking-tight tabular-nums md:text-7xl">
+          {s.prefix}<span data-counter data-value={s.value}>{s.value}</span>{s.suffix}
+        </dd>
+      </div>
+    ))}
+  </dl>
+</section>

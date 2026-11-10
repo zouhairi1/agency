@@ -1,0 +1,13 @@
+---
+import WorkDetailPage from '../../views/WorkDetailPage.astro';
+import { getProjectPaths, type LocalizedProject } from '../../lib/content';
+
+export const getStaticPaths = () => getProjectPaths('fr');
+
+interface Props {
+  project: LocalizedProject;
+  next?: LocalizedProject;
+}
+---
+
+<WorkDetailPage {...Astro.props} />

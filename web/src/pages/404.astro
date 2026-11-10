@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ui } from '../i18n/ui';
+---
+
+<BaseLayout title="404" alternates={false}>
+  <section class="container-x grid min-h-[80svh] place-items-center pt-24 text-center">
+    <div>
+      <p class="font-display text-[28vw] font-semibold leading-none tracking-[-0.06em] text-paper/10 md:text-[18rem]" aria-hidden="true">404</p>
+      <h1 class="display-lg -mt-8">{ui.fr.notFound.title}</h1>
+      <p class="mt-3 text-muted" lang="en">{ui.en.notFound.title}</p>
+      <div class="mt-10 flex justify-center gap-4">
+        <a href="/" data-magnetic class="inline-flex rounded-full bg-accent px-7 py-4 font-medium text-on-accent">{ui.fr.notFound.back}</a>
+        <a href="/en/" lang="en" class="inline-flex rounded-full border border-line px-7 py-4 font-medium">{ui.en.notFound.back}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

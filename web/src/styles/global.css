@@ -1,0 +1,174 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "lenis/dist/lenis.css";
+
+/*
+ * Colour tokens (semantic):
+ *   ink       = page background      ink-soft = raised surfaces (cards, drawer)
+ *   paper     = main text            muted    = secondary text      line = borders
+ *   accent    = brand "Majorelle blue" (buttons, highlights)
+ *   on-accent = text on accent       accent-text = accent used as text (readable on the background)
+ * Dark theme is the default below; light theme overrides the same tokens.
+ */
+@theme {
+  --color-ink: #0b0b0f;
+  --color-ink-soft: #15151c;
+  --color-paper: #f4f2ee;
+  --color-muted: #8f8d97;
+  --color-line: rgb(244 242 238 / 0.12);
+  --color-accent: #5850ec;
+  --color-accent-hover: #6d66f0;
+  --color-on-accent: #ffffff;
+  --color-accent-text: #a5b4fc;
+
+  --font-display: var(--font-general-sans), "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Light theme: chosen explicitly, or by the system when the visitor hasn't chosen. */
+:root[data-theme='light'] {
+  --color-ink: #f7f6f2;
+  --color-ink-soft: #ffffff;
+  --color-paper: #111116;
+  --color-muted: #6b6a72;
+  --color-line: rgb(17 17 22 / 0.1);
+  --color-accent: #4f46e5;
+  --color-accent-hover: #4338ca;
+  --color-on-accent: #ffffff;
+  --color-accent-text: #4338ca;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --color-ink: #f7f6f2;
+    --color-ink-soft: #ffffff;
+    --color-paper: #111116;
+    --color-muted: #6b6a72;
+    --color-line: rgb(17 17 22 / 0.1);
+    --color-accent: #4f46e5;
+    --color-accent-hover: #4338ca;
+    --color-on-accent: #ffffff;
+    --color-accent-text: #4338ca;
+    color-scheme: light;
+  }
+}
+:root { color-scheme: dark; }
+
+@layer base {
+  html {
+    transition: background-color 300ms ease, color 300ms ease;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: var(--color-ink);
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 3rem);
+    max-width: 84rem;
+  }
+
+  /* Type scale: big but balanced. Page titles (xl) > section titles (lg) > lead text. */
+  .display-xl {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.6rem, 6.2vw, 6.25rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .display-lg {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2rem, 3.8vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .lead {
+    font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-paper) 72%, transparent);
+  }
+
+  .section {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-muted);
+  }
+
+  /* Film grain overlay */
+  .grain::after {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 1.2s steps(6) infinite;
+  }
+
+  @keyframes grain {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-3%, 2%); }
+    50% { transform: translate(2%, -3%); }
+    75% { transform: translate(-2%, -1%); }
+    100% { transform: translate(0, 0); }
+  }
+}
+
+/* Initial hidden states only when JS runs (no-JS & crawlers always see content). */
+html.js [data-reveal],
+html.js [data-media-reveal] {
+  visibility: hidden;
+}
+
+/* Split text line masks */
+.split-line-mask {
+  overflow: clip;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+
+/* Reduced motion: no grain animation, no smooth scroll, fades instead of movement */
+@media (prefers-reduced-motion: reduce) {
+  .grain::after { animation: none; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-property: opacity, color, background-color, border-color !important;
+    transition-duration: 200ms !important;
+  }
+}

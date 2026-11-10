@@ -1,0 +1,92 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getLocale, localizePath } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+import type { LocalizedProject } from '../lib/content';
+
+interface Props {
+  project: LocalizedProject;
+  next?: LocalizedProject;
+}
+
+const { project: p, next } = Astro.props;
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const meta = [
+  [t.work.client, p.client],
+  [t.work.industry, p.industry],
+  [t.work.year, p.year],
+  [t.work.stack, p.stack.join(', ')],
+].filter(([, v]) => v);
+---
+
+<BaseLayout title={p.seo_title || p.title} description={p.seo_description || p.summary} image={p.og_image ?? p.cover}>
+  <article>
+    <header class="container-x pb-16 pt-40">
+      <p class="eyebrow">{p.client}</p>
+      <h1 class="display-xl mt-4 max-w-[16ch]" data-reveal="lines" data-reveal-immediate>{p.title}</h1>
+      <p class="mt-8 max-w-xl text-xl text-paper/70" data-reveal="fade" data-reveal-immediate data-reveal-delay="0.4">{p.summary}</p>
+    </header>
+
+    <div class="container-x">
+      <div class="relative aspect-[16/9] overflow-hidden rounded-sm bg-ink-soft">
+        {p.hero_video ? (
+          <video src={p.hero_video} poster={p.cover} autoplay muted loop playsinline class="size-full object-cover"></video>
+        ) : p.cover ? (
+          <Image src={p.cover} alt="" width={1600} height={1000} widths={[960, 1600]} sizes="100vw" class="size-full object-cover" loading="eager" />
+        ) : null}
+      </div>
+    </div>
+
+    <div class="container-x grid gap-12 py-16 md:py-24 lg:grid-cols-12 lg:gap-16">
+      <aside class="lg:col-span-4">
+        <dl class="grid grid-cols-2 gap-x-6 gap-y-6 lg:sticky lg:top-32 lg:grid-cols-1">
+          {meta.map(([label, value]) => (
+            <div><dt class="eyebrow">{label}</dt><dd class="mt-1 md:text-lg">{value}</dd></div>
+          ))}
+          {p.live_url && <a href={p.live_url} target="_blank" rel="noopener" class="col-span-2 inline-block w-fit border-b border-line py-2 hover:border-paper lg:col-span-1">{t.work.visit}</a>}
+        </dl>
+      </aside>
+
+      <div class="space-y-12 md:space-y-16 lg:col-span-8">
+        {p.challenge && <section><h2 class="eyebrow mb-4">{t.work.challenge}</h2><div class="rich" set:html={p.challenge} /></section>}
+        {p.approach && <section><h2 class="eyebrow mb-4">{t.work.approach}</h2><div class="rich" set:html={p.approach} /></section>}
+        {p.body && <div class="rich" set:html={p.body} />}
+      </div>
+    </div>
+
+    {p.results.length > 0 && (
+      <section class="border-y border-line py-14 md:py-20" aria-label={t.work.results}>
+        <dl class="container-x grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-12">
+          {p.results.map((r) => (
+            <div class="flex flex-col"><dt class="eyebrow order-2 mt-2">{r.label}</dt><dd class="font-display text-4xl md:text-6xl">{r.value}</dd></div>
+          ))}
+        </dl>
+      </section>
+    )}
+
+    {p.gallery.length > 0 && (
+      <div class="container-x grid gap-4 py-16 md:grid-cols-2 md:gap-8 md:py-24">
+        {p.gallery.map((src, i) => (
+          <div data-media-reveal class={`overflow-hidden rounded-sm ${i % 3 === 0 ? 'md:col-span-2' : ''}`}>
+            <Image src={src} alt="" width={1600} height={1000} widths={[640, 1200, 1600]} sizes={i % 3 === 0 ? '100vw' : '50vw'} class="h-auto w-full" />
+          </div>
+        ))}
+      </div>
+    )}
+
+    {next && (
+      <a href={localizePath(`/work/${next.slug}`, locale)} class="group block border-t border-line py-20 text-center md:py-32">
+        <p class="eyebrow">{t.work.next}</p>
+        <p class="display-xl mt-6 transition-colors group-hover:text-accent-text">{next.title}</p>
+      </a>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .rich :global(p) { font-size: 1.0625rem; line-height: 1.75; color: color-mix(in srgb, var(--color-paper) 80%, transparent); margin-bottom: 1.25em; }
+  .rich :global(h2), .rich :global(h3) { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; margin: 1.5em 0 0.6em; }
+  .rich :global(img) { border-radius: 2px; margin-block: 2rem; }
+</style>

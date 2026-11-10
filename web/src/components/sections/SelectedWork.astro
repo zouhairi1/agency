@@ -1,0 +1,41 @@
+---
+import ProjectCard from '../ui/ProjectCard.astro';
+import { getLocale, localizePath } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+export interface WorkItem {
+  slug: string;
+  title: string;
+  client: string;
+  summary: string;
+  category: string[];
+  year?: number;
+  cover?: string;
+}
+
+interface Props {
+  projects: WorkItem[];
+  linkable: boolean;
+}
+const { projects, linkable } = Astro.props;
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+---
+
+<section class="section" aria-labelledby="work-title">
+  <div class="container-x">
+    <div class="mb-10 flex flex-wrap items-end justify-between gap-4 md:mb-14 md:gap-6">
+      <div>
+        <p class="eyebrow">{t.work.label}</p>
+        <h2 id="work-title" class="display-lg mt-4" data-reveal="lines">{t.work.title}</h2>
+      </div>
+      <a href={localizePath('/work', locale)} class="inline-block border-b border-line py-2 transition-colors hover:border-paper">{t.work.viewAll}</a>
+    </div>
+
+    <ul class="grid gap-x-8 gap-y-12 md:grid-cols-2 md:gap-y-14">
+      {projects.slice(0, 4).map((project, i) => (
+        <li><ProjectCard project={project} index={i} linkable={linkable} /></li>
+      ))}
+    </ul>
+  </div>
+</section>

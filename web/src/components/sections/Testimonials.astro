@@ -1,0 +1,35 @@
+---
+import { getLocale } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  testimonials: { quote: string; name: string; role: string; company: string; photo?: string }[];
+}
+const { testimonials } = Astro.props;
+const t = useTranslations(getLocale(Astro.url));
+---
+
+<section class="section" aria-labelledby="testimonials-title">
+  <div class="container-x">
+    <p class="eyebrow">{t.testimonials.label}</p>
+    <h2 id="testimonials-title" class="sr-only">{t.testimonials.title}</h2>
+    <div class="mt-12 grid gap-16 md:grid-cols-2">
+      {testimonials.map((item) => (
+        <figure data-reveal="fade">
+          <blockquote class="font-display text-2xl leading-snug md:text-3xl">“{item.quote}”</blockquote>
+          <figcaption class="mt-8 flex items-center gap-4">
+            {item.photo ? (
+              <img src={item.photo} alt="" class="size-12 rounded-full object-cover" loading="lazy" />
+            ) : (
+              <span class="grid size-12 place-items-center rounded-full bg-ink-soft font-display">{item.name.charAt(0)}</span>
+            )}
+            <span>
+              <span class="block font-medium">{item.name}</span>
+              <span class="block text-sm text-muted">{[item.role, item.company].filter(Boolean).join(', ')}</span>
+            </span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

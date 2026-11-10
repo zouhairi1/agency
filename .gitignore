@@ -1,0 +1,24 @@
+# Backend
+backend/pb_data/
+backend/pocketbase
+backend/pocketbase.exe
+backend/.env
+
+# Frontend
+web/node_modules/
+web/dist/
+web/.astro/
+web/.env
+web/.env.production
+
+# Tests
+web/test-results/
+web/playwright-report/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.log

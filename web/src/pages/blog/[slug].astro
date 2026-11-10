@@ -1,0 +1,13 @@
+---
+import BlogPostPage from '../../views/BlogPostPage.astro';
+import { getPostPaths, type LocalizedPost } from '../../lib/content';
+
+export const getStaticPaths = () => getPostPaths('fr');
+
+interface Props {
+  post: LocalizedPost;
+  related: LocalizedPost[];
+}
+---
+
+<BlogPostPage {...Astro.props} />

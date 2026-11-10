@@ -1,0 +1,27 @@
+---
+/** Text "roll" hover: when the parent link is hovered/focused, the label slides up and a copy slides in from below. */
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+
+<span class="roll relative inline-flex overflow-hidden align-top" aria-label={text}>
+  <span aria-hidden="true">{text}</span>
+  <span aria-hidden="true" class="absolute inset-0">{text}</span>
+</span>
+
+<style>
+  .roll > span {
+    display: block;
+    transition: transform 500ms var(--ease-out-expo);
+  }
+  .roll > span:last-child { transform: translateY(100%); }
+  :global(a:hover) .roll > span:first-child,
+  :global(a:focus-visible) .roll > span:first-child { transform: translateY(-100%); }
+  :global(a:hover) .roll > span:last-child,
+  :global(a:focus-visible) .roll > span:last-child { transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .roll > span { transition: none; }
+  }
+</style>

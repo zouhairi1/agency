@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/islands/ContactForm';
+import { site } from '../data/site';
+import { getLocale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const waText = locale === 'fr' ? 'Bonjour ! J’aimerais parler d’un projet.' : "Hi! I'd like to talk about a project.";
+const waHref = site.whatsapp ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(waText)}` : undefined;
+---
+
+<BaseLayout title={t.nav.contact} description={t.contact.intro}>
+  <section class="container-x grid gap-16 pb-32 pt-36 lg:grid-cols-12 lg:gap-20">
+    <div class="lg:col-span-5 lg:sticky lg:top-32 lg:self-start">
+      <p class="eyebrow">{t.contact.label}</p>
+      <!-- Sized for the narrow column so long words never get cut. -->
+      <h1 class="mt-4 font-display text-5xl font-medium leading-[1] tracking-tight text-balance [hyphens:none] lg:text-[3.25rem] xl:text-6xl" data-reveal="lines" data-reveal-immediate>{t.contact.title}</h1>
+      <p class="mt-8 max-w-sm text-lg text-paper/70">{t.contact.intro}</p>
+      <p class="mt-6 max-w-sm border-l-2 border-accent pl-4 text-sm text-paper/70">{t.contact.pricingNote}</p>
+      <ul class="mt-12 space-y-3 text-lg">
+        <li><a href={`mailto:${site.email}`} class="border-b border-line pb-0.5 hover:border-paper">{site.email}</a></li>
+        {waHref && <li><a href={waHref} target="_blank" rel="noopener" class="border-b border-line pb-0.5 hover:border-paper">{t.contact.whatsapp}</a></li>}
+        {site.bookingUrl && <li><a href={site.bookingUrl} target="_blank" rel="noopener" class="border-b border-line pb-0.5 hover:border-paper">{t.contact.book}</a></li>}
+      </ul>
+    </div>
+    <div class="rounded-sm border border-line bg-ink-soft p-6 sm:p-10 lg:col-span-7">
+      <ContactForm client:load t={t.form} locale={locale} channel="form" />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import type { WorkItem } from '../sections/SelectedWork.astro';
+import { getLocale, localizePath } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  project: WorkItem;
+  index: number;
+  linkable: boolean;
+}
+const { project, index, linkable } = Astro.props;
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const Tag = linkable ? 'a' : 'div';
+const gradients = [
+  'from-[#1b1b1b] to-[#2c3a12]',
+  'from-[#141414] to-[#1c2a3a]',
+  'from-[#1a1a1a] to-[#3a1c2c]',
+  'from-[#121212] to-[#2c2c2c]',
+];
+const categories = project.category.map((c) => t.work.categories[c] ?? c).join(' · ');
+---
+
+<Tag
+  href={linkable ? localizePath(`/work/${project.slug}`, locale) : undefined}
+  class="group block"
+>
+  <div data-media-reveal class="relative aspect-[4/3] overflow-hidden rounded-sm bg-ink-soft">
+    {project.cover ? (
+      <Image
+        src={project.cover}
+        alt={`${project.title}, ${project.client}`}
+        width={1600} height={1000}
+        widths={[640, 960, 1440]}
+        sizes="(min-width: 1024px) 42vw, 100vw"
+        class="size-full object-cover transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-105"
+        loading={index < 2 ? 'eager' : 'lazy'}
+      />
+    ) : (
+      <div data-media class={`size-full bg-gradient-to-br ${gradients[index % gradients.length]} transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-105`}>
+        <span class="absolute bottom-6 left-6 font-display text-5xl text-paper/20">{project.client}</span>
+      </div>
+    )}
+  </div>
+  <div class="mt-4 md:mt-5">
+    <p class="text-xs uppercase tracking-wider text-muted">{categories}{project.year && ` · ${project.year}`}</p>
+    <h3 class="mt-2 font-display text-xl font-medium leading-snug md:text-2xl">{project.title}</h3>
+    <p class="mt-1 text-muted">{project.summary}</p>
+  </div>
+</Tag>

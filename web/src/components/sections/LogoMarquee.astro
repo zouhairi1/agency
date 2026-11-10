@@ -1,0 +1,22 @@
+---
+interface Props {
+  items: { name: string; logo?: string }[];
+}
+const { items } = Astro.props;
+---
+
+<section class="py-16" aria-label="Clients and technologies">
+  <div data-marquee="35" class="flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+    <ul data-marquee-track class="flex shrink-0 items-center gap-16 pr-16">
+      {items.map((item) => (
+        <li class="shrink-0 grayscale transition duration-300 hover:grayscale-0">
+          {item.logo ? (
+            <img src={item.logo} alt={item.name} class="h-10 w-auto opacity-60 transition-opacity hover:opacity-100" loading="lazy" />
+          ) : (
+            <span class="font-display text-4xl text-paper/40 transition-colors hover:text-paper md:text-6xl">{item.name}</span>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

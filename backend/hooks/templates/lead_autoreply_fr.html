@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<body style="font-family: -apple-system, Segoe UI, Roboto, sans-serif; color: #111; line-height: 1.6;">
+  <p>Bonjour {{.Name}},</p>
+  <p>Merci d'avoir contacté {{.AgencyName}}. Nous avons bien reçu les détails de votre projet et nous vous répondrons sous <strong>24 heures</strong> (jours ouvrés).</p>
+  {{if .HasCDC}}
+  <p><strong>Prochaine étape :</strong> nous allons étudier votre cahier des charges et revenir vers vous avec nos questions et une proposition sur mesure.{{if not .HasFile}} Vous pouvez répondre à cet e-mail en joignant votre cahier des charges.{{end}}</p>
+  {{else}}
+  <p><strong>Prochaine étape :</strong> nous allons organiser un court rendez-vous de découverte pour comprendre vos objectifs. Chaque projet est chiffré uniquement après ce rendez-vous, afin que la proposition corresponde à vos besoins réels.</p>
+  {{end}}
+  <p>À très bientôt,<br>L'équipe {{.AgencyName}}</p>
+</body>
+</html>

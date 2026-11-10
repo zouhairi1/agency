@@ -1,0 +1,94 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/ui/PostCard.astro';
+import { getLocale, localizePath } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+import { formatDate, type LocalizedPost } from '../lib/content';
+
+interface Props {
+  post: LocalizedPost;
+  related: LocalizedPost[];
+}
+const { post, related } = Astro.props;
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.title,
+  description: post.excerpt,
+  datePublished: post.date?.toISOString(),
+  inLanguage: locale,
+  author: post.author ? { '@type': 'Person', name: post.author.name } : undefined,
+};
+---
+
+<BaseLayout title={post.title} description={post.excerpt} image={post.cover}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <!-- Reading progress (CSS scroll-driven animation; hidden where unsupported). -->
+  <div class="reading-progress fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-accent" aria-hidden="true"></div>
+
+  <article class="pb-24 pt-36">
+    <header class="container-x max-w-4xl">
+      <a href={localizePath('/blog', locale)} class="text-sm text-muted hover:text-paper">{t.blog.back}</a>
+      <div class="mt-10 flex flex-wrap items-center gap-3 text-xs uppercase tracking-wider text-muted">
+        {post.category && <span class="text-accent-text">{t.blog.categories[post.category] ?? post.category}</span>}
+        <span>{formatDate(post.date, locale)}</span>
+        <span>· {post.readingTime} {t.blog.minRead}</span>
+      </div>
+      <h1 class="mt-5 font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-6xl" data-reveal="lines" data-reveal-immediate>{post.title}</h1>
+      <p class="mt-6 text-xl text-paper/70">{post.excerpt}</p>
+      {post.author && <p class="mt-8 text-sm text-muted">{post.author.name}{post.author.role && `, ${post.author.role}`}</p>}
+    </header>
+
+    {post.cover && (
+      <div class="container-x mt-14 max-w-5xl">
+        <Image src={post.cover} alt="" width={1600} height={1000} widths={[800, 1400, 1600]} sizes="(min-width: 1024px) 64rem, 100vw" class="w-full rounded-sm" loading="eager" />
+      </div>
+    )}
+
+    <div class="prose-post container-x mt-14 max-w-3xl" set:html={post.body} />
+
+    <aside class="container-x mt-20 max-w-3xl">
+      <div class="rounded-sm border border-line bg-ink-soft p-8 md:p-10">
+        <p class="font-display text-3xl">{t.blog.ctaTitle}</p>
+        <p class="mt-3 text-paper/70">{t.blog.ctaText}</p>
+        <a href={localizePath('/contact', locale)} data-open-contact="blog-post" class="mt-6 inline-flex rounded-full bg-accent px-6 py-3 font-medium text-on-accent transition-colors hover:bg-accent-hover">{t.cta.start}</a>
+      </div>
+    </aside>
+  </article>
+
+  {related.length > 0 && (
+    <section class="container-x border-t border-line py-20">
+      <p class="eyebrow mb-10">{t.blog.related}</p>
+      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        {related.map((p, i) => <li><PostCard post={p} index={i + 1} /></li>)}
+      </ul>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .prose-post { font-size: 1.0625rem; line-height: 1.8; color: color-mix(in srgb, var(--color-paper) 82%, transparent); }
+  .prose-post :global(p) { margin-bottom: 1.4em; }
+  .prose-post :global(h2) { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 1.9rem); line-height: 1.2; color: var(--color-paper); margin: 2.2em 0 0.7em; letter-spacing: -0.02em; }
+  .prose-post :global(h3) { font-family: var(--font-display); font-size: 1.4rem; color: var(--color-paper); margin: 1.8em 0 0.6em; }
+  .prose-post :global(ul), .prose-post :global(ol) { margin: 0 0 1.4em 1.25em; }
+  .prose-post :global(ul) { list-style: disc; }
+  .prose-post :global(ol) { list-style: decimal; }
+  .prose-post :global(li) { margin-bottom: 0.5em; padding-left: 0.25em; }
+  .prose-post :global(li::marker) { color: var(--color-accent-text); }
+  .prose-post :global(strong) { color: var(--color-paper); font-weight: 600; }
+  .prose-post :global(a) { color: var(--color-accent-text); text-decoration: underline; text-underline-offset: 3px; }
+  .prose-post :global(blockquote) { border-left: 2px solid var(--color-accent); padding-left: 1.25rem; font-style: italic; color: var(--color-paper); margin: 2em 0; }
+
+  .reading-progress { transform: scaleX(0); }
+  @supports (animation-timeline: scroll()) {
+    .reading-progress { animation: progress linear both; animation-timeline: scroll(root); }
+    @keyframes progress { to { transform: scaleX(1); } }
+  }
+  @media (prefers-reduced-motion: reduce) { .reading-progress { display: none; } }
+</style>

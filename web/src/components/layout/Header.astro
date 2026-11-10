@@ -1,0 +1,164 @@
+---
+import { site } from '../../data/site';
+import RollText from '../ui/RollText.astro';
+import Logo from '../ui/Logo.astro';
+import ThemeToggle from '../ui/ThemeToggle.astro';
+import { getLocale, localizePath, locales, switchLocalePath } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+import { getNav } from '../../i18n/nav';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const nav = getNav(locale);
+const path = Astro.url.pathname;
+---
+
+<header
+  data-header
+  transition:animate="none"
+  class="fixed inset-x-0 top-0 z-50 transition-[transform,background-color,backdrop-filter] duration-500 ease-[var(--ease-out-expo)]"
+>
+  <div class="container-x flex h-16 items-center justify-between gap-3 lg:h-20 lg:gap-6">
+    <a href={localizePath('/', locale)} class="flex min-h-11 items-center" aria-label={`${site.name}, ${t.a11y.home}`}>
+      <Logo size="size-7 lg:size-8" />
+    </a>
+
+    <!-- Full menu on large screens only; phones and tablets use the ☰ menu. -->
+    <nav aria-label="Main" class="hidden items-center gap-8 lg:flex">
+      {nav.map((item) => (
+        <a href={item.href} class="py-3 text-sm" aria-current={path === item.href || path === `${item.href}/` ? 'page' : undefined}>
+          <RollText text={item.label} />
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <span class="hidden items-center gap-2 text-xs text-muted 2xl:flex">
+        <span class="relative flex size-2">
+          <span class="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60 motion-reduce:animate-none"></span>
+          <span class="relative inline-flex size-2 rounded-full bg-accent"></span>
+        </span>
+        {t.availability}
+      </span>
+
+      <!-- Language switcher -->
+      <nav aria-label={t.a11y.language} class="flex items-center rounded-full border border-line p-0.5 text-xs font-medium uppercase">
+        {locales.map((l) => (
+          <a
+            href={switchLocalePath(Astro.url, l)}
+            hreflang={l}
+            lang={l}
+            aria-current={l === locale ? 'true' : undefined}
+            class:list={['grid h-9 min-w-9 place-items-center rounded-full px-2.5 transition-colors', l === locale ? 'bg-paper text-ink' : 'text-muted hover:text-paper']}
+          >
+            {l}
+          </a>
+        ))}
+      </nav>
+
+      <ThemeToggle labels={t.a11y} />
+
+      <a
+        href={localizePath('/contact', locale)}
+        data-open-contact="header"
+        class="hidden h-10 items-center rounded-full bg-accent px-5 text-sm font-medium text-on-accent transition-colors hover:bg-accent-hover sm:inline-flex"
+      >
+        {t.cta.start}
+      </a>
+      <button
+        type="button"
+        data-menu-toggle
+        data-label-open={t.a11y.openMenu}
+        data-label-close={t.a11y.closeMenu}
+        class="group grid size-10 place-items-center rounded-full border border-line lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label={t.a11y.openMenu}
+      >
+        <span class="relative block h-3 w-4" aria-hidden="true">
+          <span class="absolute inset-x-0 top-0 h-px bg-paper transition-transform duration-300 group-aria-expanded:translate-y-1.5 group-aria-expanded:rotate-45"></span>
+          <span class="absolute inset-x-0 bottom-0 h-px bg-paper transition-transform duration-300 group-aria-expanded:-translate-y-1.5 group-aria-expanded:-rotate-45"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile / tablet menu -->
+  <div
+    id="mobile-menu"
+    data-menu
+    hidden
+    class="fixed inset-0 -z-10 flex flex-col overflow-y-auto bg-ink px-5 pb-10 pt-24 sm:px-8 lg:hidden"
+  >
+    <nav aria-label="Mobile" class="border-t border-line">
+      {nav.map((item) => (
+        <a href={item.href} data-menu-link class="flex items-center justify-between border-b border-line py-5 font-display text-3xl font-medium sm:text-4xl">
+          {item.label}
+          <span class="text-xl text-muted" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </nav>
+    <div class="mt-auto pt-10">
+      <a href={localizePath('/contact', locale)} data-open-contact="mobile-menu" class="flex h-14 w-full items-center justify-center rounded-full bg-accent font-medium text-on-accent">
+        {t.cta.start}
+      </a>
+      <a href={`mailto:${site.email}`} class="mt-5 block py-2 text-center text-muted">{site.email}</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  import { gsap, MQ } from '../../scripts/motion/gsap';
+
+  // The header is re-rendered on every page (so links and the language switch are always correct).
+  // Listeners are tied to an AbortController and removed before the next page swap.
+  function bindHeader() {
+    const header = document.querySelector<HTMLElement>('[data-header]');
+    if (!header) return;
+    const controller = new AbortController();
+    const { signal } = controller;
+
+    const toggle = header.querySelector<HTMLButtonElement>('[data-menu-toggle]')!;
+    const menu = header.querySelector<HTMLElement>('[data-menu]')!;
+    const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+
+    // Hide on scroll down, show on scroll up; solid background once scrolled.
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      header.style.transform = !isOpen() && y > lastY && y > 200 ? 'translateY(-100%)' : '';
+      for (const cls of ['bg-ink/95', 'backdrop-blur-md', 'border-b', 'border-line']) header.classList.toggle(cls, y > 40);
+      lastY = y;
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true, signal });
+
+    // Mobile menu: simple fade.
+    const setMenu = (open: boolean) => {
+      const duration = matchMedia(MQ.reduce).matches ? 0 : 0.3;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? '');
+      window.dispatchEvent(new Event(open ? 'scroll:lock' : 'scroll:unlock'));
+      if (open) {
+        menu.hidden = false;
+        gsap.fromTo(menu, { opacity: 0 }, { opacity: 1, duration, ease: 'power2.out' });
+      } else {
+        gsap.to(menu, { opacity: 0, duration, ease: 'power2.out', onComplete: () => void (menu.hidden = true) });
+      }
+    };
+
+    toggle.addEventListener('click', () => setMenu(!isOpen()), { signal });
+    menu.addEventListener('click', (e) => (e.target as Element).closest('a') && setMenu(false), { signal });
+    document.addEventListener('keydown', (e) => e.key === 'Escape' && isOpen() && setMenu(false), { signal });
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        if (isOpen()) window.dispatchEvent(new Event('scroll:unlock'));
+        controller.abort();
+      },
+      { once: true },
+    );
+  }
+
+  document.addEventListener('astro:page-load', bindHeader);
+</script>

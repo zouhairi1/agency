@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<body style="font-family: -apple-system, Segoe UI, Roboto, sans-serif; color: #111; line-height: 1.6;">
+  <p>Hi {{.Name}},</p>
+  <p>Thanks for reaching out to {{.AgencyName}}. We've received your project details and will reply within <strong>24 hours</strong> (business days).</p>
+  {{if .HasCDC}}
+  <p><strong>Next step:</strong> we'll review your specifications (CDC) and come back to you with questions and a tailored proposal.{{if not .HasFile}} You can reply to this email with your CDC attached.{{end}}</p>
+  {{else}}
+  <p><strong>Next step:</strong> we'll schedule a short discovery meeting to understand your goals. Every project is quoted only after this meeting, so the proposal fits your real needs.</p>
+  {{end}}
+  <p>Talk soon,<br>The {{.AgencyName}} team</p>
+</body>
+</html>

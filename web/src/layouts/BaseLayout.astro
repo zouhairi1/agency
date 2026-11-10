@@ -1,0 +1,119 @@
+---
+import { ClientRouter, fade } from 'astro:transitions';
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import ContactDrawer from '../components/islands/ContactDrawer';
+import { site } from '../data/site';
+import { getLocale, htmlLang, locales, ogLocale, switchLocalePath, defaultLocale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  /** Set false on pages that exist in one language only. */
+  alternates?: boolean;
+}
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const { title, description = t.meta.description, image, alternates = true } = Astro.props;
+const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | ${t.meta.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ?? new URL('/og-default.png', Astro.site).href;
+---
+
+<!doctype html>
+<html lang={htmlLang[locale]} transition:animate="none">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates && locales.map((l) => (
+      <link rel="alternate" hreflang={htmlLang[l]} href={new URL(switchLocalePath(Astro.url, l), Astro.site)} />
+    ))}
+    {alternates && <link rel="alternate" hreflang="x-default" href={new URL(switchLocalePath(Astro.url, defaultLocale), Astro.site)} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#0b0b0f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={ogLocale[locale]} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <Font cssVariable="--font-general-sans" preload />
+    <Font cssVariable="--font-inter" />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'ProfessionalService',
+      name: site.name,
+      url: Astro.site?.href,
+      email: site.email,
+      description: t.meta.description,
+      address: { '@type': 'PostalAddress', addressCountry: 'MA' },
+      areaServed: ['MA', 'Worldwide'],
+      knowsLanguage: ['fr', 'en', 'ar'],
+      sameAs: site.socials.map((s) => s.href),
+    })} />
+
+    <!-- Before paint: mark JS as available (no reveal flash) and apply the theme (no colour flash). -->
+    <script is:inline>
+      (function () {
+        function apply(doc) {
+          var theme;
+          try { theme = localStorage.getItem('theme'); } catch (e) {}
+          if (theme !== 'light' && theme !== 'dark') {
+            theme = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          doc.documentElement.dataset.theme = theme;
+          doc.documentElement.classList.add('js');
+        }
+        apply(document);
+        if (!window.__themeSwapBound) {
+          window.__themeSwapBound = true;
+          // Page navigations swap <html>; re-apply on the incoming document before it is shown.
+          document.addEventListener('astro:before-swap', function (e) { apply(e.newDocument); });
+        }
+      })();
+    </script>
+    <ClientRouter />
+  </head>
+  <body class="grain">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:text-on-accent">
+      {t.a11y.skip}
+    </a>
+
+    <Header />
+
+    <!-- Page changes: a short, simple cross-fade of the content only (header/footer stay still). -->
+    <main id="main" transition:animate={fade({ duration: '0.25s' })}>
+      <slot />
+    </main>
+
+    <Footer />
+
+    <ContactDrawer
+      client:idle
+      transition:persist={`contact-drawer-${locale}`}
+      locale={locale}
+      t={{ drawer: t.drawer, form: t.form, contact: t.contact }}
+      email={site.email}
+      whatsapp={site.whatsapp}
+      bookingUrl={site.bookingUrl}
+    />
+
+    <script>
+      import '../scripts/motion/init';
+    </script>
+  </body>
+</html>

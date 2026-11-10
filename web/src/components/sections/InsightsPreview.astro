@@ -1,0 +1,28 @@
+---
+import PostCard from '../ui/PostCard.astro';
+import { getLocale, localizePath } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+import type { LocalizedPost } from '../../lib/content';
+
+interface Props {
+  posts: LocalizedPost[];
+}
+const { posts } = Astro.props;
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+---
+
+<section class="section" aria-labelledby="blog-title">
+  <div class="container-x">
+    <div class="mb-10 flex flex-wrap items-end justify-between gap-4 md:mb-14 md:gap-6">
+      <div>
+        <p class="eyebrow">{t.blog.label}</p>
+        <h2 id="blog-title" class="display-lg mt-4" data-reveal="lines">{t.blog.title}</h2>
+      </div>
+      <a href={localizePath('/blog', locale)} class="inline-block border-b border-line py-2 transition-colors hover:border-paper">{t.blog.viewAll}</a>
+    </div>
+    <ul class="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3 md:gap-y-14">
+      {posts.map((post, i) => <li data-reveal="fade"><PostCard post={post} index={i} /></li>)}
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Manifesto from '../components/sections/Manifesto.astro';
+import SelectedWork from '../components/sections/SelectedWork.astro';
+import LogoMarquee from '../components/sections/LogoMarquee.astro';
+import Services from '../components/sections/Services.astro';
+import Process from '../components/sections/Process.astro';
+import Scoper from '../components/sections/Scoper.astro';
+import Stats from '../components/sections/Stats.astro';
+import Testimonials from '../components/sections/Testimonials.astro';
+import TechStack from '../components/sections/TechStack.astro';
+import InsightsPreview from '../components/sections/InsightsPreview.astro';
+import { getLocale } from '../i18n/config';
+import { getHomeContent } from '../lib/content';
+
+const locale = getLocale(Astro.url);
+const content = await getHomeContent(locale);
+---
+
+<!-- Journey: Hook → Alignment → Evidence → Logic (services, process, scoper) → Conversion -->
+<BaseLayout>
+  <Hero />
+  <Manifesto />
+  {content.work.length > 0 && <SelectedWork projects={content.work} linkable={content.workLinkable} />}
+  {content.marquee.length > 0 && <LogoMarquee items={content.marquee} />}
+  <Services services={content.services} />
+  <Process />
+  <Scoper options={content.scoperOptions} />
+  {content.stats.length > 0 && <Stats stats={content.stats} />}
+  {content.testimonials.length > 0 && <Testimonials testimonials={content.testimonials} />}
+  <TechStack />
+  {content.posts.length > 0 && <InsightsPreview posts={content.posts} />}
+</BaseLayout>
